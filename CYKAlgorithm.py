@@ -72,7 +72,8 @@ def productionUpdate(rules, variables, terminals, table, l, s, p):
 			if table[p, s, right1Pos] == 1 and table[l-p-1, s+p+1, right2Pos] == 1:
 				table[l,s,leftPos] = 1
 		
-def YCKAlgorithm(string, pRules, var, terms):
+def CYKAlgorithm(string, pRules, var, terms):
+	""" Method to run the CYK Parsing Algorithm """
 	N = wordsIn(string, terms)
 
 	P = len(var)
@@ -110,5 +111,5 @@ if __name__ == '__main__':
 	variables = getVariables(GRAMMARPATH)
 	productions = getProduction(GRAMMARPATH)
 	
-	goodResult = YCKAlgorithm(CORRECTTESTSTRING, productions, variables, terminals)
-	badResult = YCKAlgorithm(INCORRECTTESTSTRING, productions, variables, terminals)
+	goodResult = CYKAlgorithm(CORRECTTESTSTRING, productions, variables, terminals)
+	badResult = CYKAlgorithm(INCORRECTTESTSTRING, productions, variables, terminals)
