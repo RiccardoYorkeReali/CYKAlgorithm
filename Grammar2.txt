@@ -1,0 +1,10 @@
+TERMINALS:
+a b eps
+VARIABLES:
+S A B T X
+PRODUCTIONS:
+S -> A B | X B | eps
+T -> A B | X B
+X -> A T
+A -> a
+B -> b
