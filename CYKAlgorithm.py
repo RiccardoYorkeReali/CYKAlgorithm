@@ -149,8 +149,8 @@ def constructTree(startSymbol, indentation):
 	if startSymbol.terminal != None:
 		return '(' + startSymbol.getSymbol() + '->' + startSymbol.getTerminal() + ')'
 	else:
-		newIndent1 = indentation + 2
-		newIndent2 = indentation + 2
+		newIndent1 = indentation + 2 + len(startSymbol.getChild1().getSymbol())
+		newIndent2 = indentation + 2 + len(startSymbol.getChild2().getSymbol())
 		left = constructTree(startSymbol.getChild1(), newIndent1)
 		right = constructTree(startSymbol.getChild2(), newIndent2)
 		return '(' + startSymbol.getSymbol() + ' ' + left + '\n'  + ' '*indentation + right + ')'
