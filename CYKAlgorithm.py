@@ -113,6 +113,7 @@ def productionUpdate(rules, variables, terminals, table, l, s, p):
 				table[l][s].append(Node(symbol = left, child1 = child1, child2 = child2))
 
 def printTable(table, string, N):
+	""" Method to print the table used for recognition """
 	t = BeautifulTable()
 
 	firstRow = []
@@ -144,13 +145,12 @@ def printTable(table, string, N):
 	print(t)
 
 def constructTree(startSymbol, indentation):
-
+	""" Method used to print some parsing trees (Not all,in case of ambiguity, but some (at least one)). """
 	if startSymbol.terminal != None:
 		return '(' + startSymbol.getSymbol() + '->' + startSymbol.getTerminal() + ')'
 	else:
-		newIndent1 = indentation + 2 + len(startSymbol.getChild1().getSymbol()) #len(tree[1][0])
-		newIndent2 = indentation + 2 + len(startSymbol.getChild2().getSymbol()) #len(tree[2][0])
-
+		newIndent1 = indentation + 2
+		newIndent2 = indentation + 2
 		left = constructTree(startSymbol.getChild1(), newIndent1)
 		right = constructTree(startSymbol.getChild2(), newIndent2)
 		return '(' + startSymbol.getSymbol() + ' ' + left + '\n'  + ' '*indentation + right + ')'
