@@ -113,6 +113,7 @@ def productionUpdate(rules, variables, terminals, table, l, s, p):
 				table[l][s].append(Node(symbol = left, child1 = child1, child2 = child2))
 
 def printTable(table, string, N):
+	""" Method to print the Parsing Table """
 	t = BeautifulTable()
 
 	firstRow = []
@@ -144,6 +145,7 @@ def printTable(table, string, N):
 	print(t)
 
 def constructTree(startSymbol, depth = 0):
+	""" Method to print a Parsing Tree """
 	tree = ""
 
 	if startSymbol.getChild2() != None:
