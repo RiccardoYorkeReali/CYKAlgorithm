@@ -2,7 +2,7 @@ import sys
 import numpy as np
 from beautifultable import BeautifulTable
 
-CHOICE = 2
+CHOICE = 0
 
 #Some grammars, and two test examples for each grammar
 GRAMMARS = ['Grammar1.txt', 'Grammar2.txt', 'Grammar3.txt']
@@ -113,7 +113,6 @@ def productionUpdate(rules, variables, terminals, table, l, s, p):
 				table[l][s].append(Node(symbol = left, child1 = child1, child2 = child2))
 
 def printTable(table, string, N):
-	""" Method to print the table used for recognition """
 	t = BeautifulTable()
 
 	firstRow = []
@@ -144,16 +143,23 @@ def printTable(table, string, N):
 
 	print(t)
 
-def constructTree(startSymbol, indentation):
-	""" Method used to print some parsing trees (Not all,in case of ambiguity, but some (at least one)). """
-	if startSymbol.terminal != None:
-		return '(' + startSymbol.getSymbol() + '->' + startSymbol.getTerminal() + ')'
+def constructTree(startSymbol, depth = 0):
+	tree = ""
+
+	if startSymbol.getChild2() != None:
+		tree += constructTree(startSymbol.getChild2(), depth + 1)
+
+	if startSymbol.getTerminal() != None:
+		tree += '\n' + "    "*depth + startSymbol.getSymbol() + '->' + startSymbol.getTerminal()
 	else:
-		newIndent1 = indentation + 2 + len(startSymbol.getChild1().getSymbol())
-		newIndent2 = indentation + 2 + len(startSymbol.getChild2().getSymbol())
-		left = constructTree(startSymbol.getChild1(), newIndent1)
-		right = constructTree(startSymbol.getChild2(), newIndent2)
-		return '(' + startSymbol.getSymbol() + ' ' + left + '\n'  + ' '*indentation + right + ')'
+		tree += "\n" + "    "*depth + startSymbol.getSymbol()
+
+
+	if startSymbol.getChild1()!= None:
+		tree += constructTree(startSymbol.getChild1(), depth + 1)
+
+	return tree
+
 		
 def CYKAlgorithm(string, pRules, var, terms):
 	""" Method to run the CYK Parsing Algorithm """
@@ -184,7 +190,6 @@ def CYKAlgorithm(string, pRules, var, terms):
 
 	a = table[N-1][0]
 
-
 	for i in range(finalLength):
 		finalVector.append(table[N-1][0][i].getSymbol())
 
@@ -200,9 +205,9 @@ def CYKAlgorithm(string, pRules, var, terms):
 
 		for el in table[N-1][0]: #looking for startSymbol
 			if el.getSymbol() == var[0]:
-				tree = constructTree(el, 3)
+				tree = constructTree(el,0)
 				print(tree)
-				print('')
+				print('\n\n\n')
 	else:
 		print('String \'' + string + '\' does not belong to the selected grammar.' )
 		print(' ')
